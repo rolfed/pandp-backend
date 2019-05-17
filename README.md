@@ -43,11 +43,17 @@ Run docker-compose
 docker-compose up
 ```
 
+Rebuild docker containers with docker-compose
+```
+docker-compose up --build
+```
+This will create pandp database with a dev user with password 'password'
+
 End with an example of getting some data out of the system or using it for a little demo
 
-## TODO: Running the tests
+## Running the tests
 
-: Explain how to run the automated tests for this system
+Explain how to run the automated tests for this system
 
 ### Break down into end to end tests
 
@@ -57,7 +63,7 @@ Explain what these tests test and why
 Give an example
 ```
 
-### TODO: And coding style tests
+### And coding style tests
 
 Explain what these tests test and why
 
@@ -65,26 +71,37 @@ Explain what these tests test and why
 Give an example
 ```
 
-## TODO: Deployment
+## Deployment
 
 Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Spring Boot](https://spring.io/) - The web framework used
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [GraphQL](https://graphql.org/) - RDC Query layer
-* [Stripe](https://stripe.com/) - Payment Gateway 
-* [PostGres](https://www.postgresql.org/) - Database
+* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## Authors
+
+* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-coming soon...
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc
 
