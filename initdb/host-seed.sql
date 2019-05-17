@@ -1,3 +1,5 @@
+CREATE DATABASE pandp;
+
 \connect pandp;
 
 CREATE SCHEMA users;
