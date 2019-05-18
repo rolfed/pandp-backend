@@ -11,33 +11,32 @@ CREATE TYPE permissionsE AS ENUM ('CUSTOMER', 'HOST', 'ADMIN');
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users.credentials (
-  id uuid DEFAULT uuid_generate_v4 (),
-  PRIMARY KEY(id),
+  user_id INT,
+  PRIMARY KEY(user_id),
   email_login VARCHAR(50) NOT NULL,
   UNIQUE(email_login),
   password VARCHAR(155) NOT NULL,
   permissions permissionsE
  );
 
-INSERT INTO users.credentials (email_login, password, permissions) VALUES
-  ( 'customer1@gmail.com', 'password', 'CUSTOMER'),
-  ( 'customer2@gmail.com', 'password', 'CUSTOMER'),
-  ( 'customer3@gmail.com', 'password', 'CUSTOMER'),
-  ( 'customer4@gmail.com', 'password', 'CUSTOMER'),
-  ( 'host1@gmail.com', 'password', 'HOST'),
-  ( 'host2@gmail.com', 'password', 'HOST'),
-  ( 'host3@gmail.com', 'password', 'HOST'),
-  ( 'host4@gmail.com', 'password', 'HOST'),
-  ( 'admin1@gmail.com', 'password', 'ADMIN'),
-  ( 'admin2@gmail.com', 'password', 'ADMIN'),
-  ( 'admin3@gmail.com', 'password', 'ADMIN'),
-  ( 'admin4@gmail.com', 'password', 'ADMIN');
+INSERT INTO users.credentials (user_id, email_login, password, permissions) VALUES
+  ( 1, 'customer1@gmail.com', 'password', 'CUSTOMER'),
+  ( 2, 'customer2@gmail.com', 'password', 'CUSTOMER'),
+  ( 3, 'customer3@gmail.com', 'password', 'CUSTOMER'),
+  ( 4, 'customer4@gmail.com', 'password', 'CUSTOMER'),
+  ( 5, 'host1@gmail.com', 'password', 'HOST'),
+  ( 6, 'host2@gmail.com', 'password', 'HOST'),
+  ( 7, 'host3@gmail.com', 'password', 'HOST'),
+  ( 8, 'host4@gmail.com', 'password', 'HOST'),
+  ( 9, 'admin1@gmail.com', 'password', 'ADMIN'),
+  ( 10, 'admin2@gmail.com', 'password', 'ADMIN'),
+  ( 11, 'admin3@gmail.com', 'password', 'ADMIN'),
+  ( 12, 'admin4@gmail.com', 'password', 'ADMIN');
 
-CREATE TABLE hosts.profile (
-  profile_id uuid,
+CREATE TABLE users.profile (
+  profile_id INT,
   UNIQUE(profile_id),
---   PRIMARY KEY (profile_id),
-  FOREIGN KEY (profile_id) REFERENCES users.credentials(id),
+  FOREIGN KEY (profile_id) REFERENCES users.credentials(user_id),
   first_name VARCHAR(55),
   last_name VARCHAR(55),
   mobile_number VARCHAR(20),
@@ -46,7 +45,8 @@ CREATE TABLE hosts.profile (
   description text
 );
 
-INSERT INTO hosts.profile (
+INSERT INTO users.profile (
+  profile_id,
   first_name,
   last_name,
   mobile_number,
@@ -54,15 +54,24 @@ INSERT INTO hosts.profile (
   profile_image,
   description
 ) VALUES
-  ('Danniel', 'Rolfe', '971-713-1358', '971-713-1359', 'https://via.placeholder.com/350x350', 'The boogy man'),
-  ('Denise', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
-  ('Alex', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
-  ('Futuer', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man');
+  (1, 'Customer 1', 'Rolfe', '971-713-1358', '971-713-1359', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (2, 'Customer 2', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (3, 'Customer 3', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (4, 'Customer 4', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (5, 'Host 1', 'Rolfe', '971-713-1358', '971-713-1359', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (6, 'Host 2', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (7, 'Host 3', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (8, 'Host 4', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (9, 'Admin 1', 'Rolfe', '971-713-1358', '971-713-1359', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (10, 'Admin 2', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (11, 'Admin 3', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
+  (12, 'Admin 4', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man');
 
 CREATE TABLE hosts.property (
-  property_id uuid,
+  property_id INT,
   UNIQUE(property_id),
-  FOREIGN KEY (property_id) REFERENCES hosts.profile(profile_id),
+  profile_id INT,
+  FOREIGN KEY (profile_id) REFERENCES users.profile(profile_id),
   property_rating INT Array,
   property_latitude DECIMAL,
   property_longitude DECIMAL,
@@ -73,6 +82,8 @@ CREATE TABLE hosts.property (
 );
 
 INSERT INTO hosts.property (
+  profile_id,
+  property_id,
   property_rating,
   property_latitude,
   property_longitude,
@@ -81,33 +92,38 @@ INSERT INTO hosts.property (
   property_state,
   property_zip
 ) VALUES
-  (Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
-  (Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
-  (Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124);
+  (5, 1,  Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
+  (5, 2, Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
+  (6, 3, Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
+  (7, 4, Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
+  (8, 5, Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124);
 
 CREATE TABLE hosts.schedule (
-  property_schedule_id uuid,
-  UNIQUE(property_schedule_id),
-  FOREIGN KEY (property_schedule_id) REFERENCES hosts.property(property_id),
+  property_id INT,
+  FOREIGN KEY (property_id) REFERENCES hosts.property(property_id),
   property_schedule_checkin DATE,
   property_schedule_checkout DATE
 );
 
 INSERT INTO hosts.schedule (
+  property_id,
   property_schedule_checkin,
   property_schedule_checkout
 ) VALUES
-  ('9999-12-31 23:59:59', '9999-12-31 23:59:59'),
-  ('9999-12-31 23:59:59', '9999-12-31 23:59:59'),
-  ('9999-12-31 23:59:59', '9999-12-31 23:59:59');
+  (1, '9999-12-31 23:59:59', '9999-12-31 23:59:59'),
+  (2, '9999-12-31 23:59:59', '9999-12-31 23:59:59'),
+  (2, '9999-12-31 23:59:59', '9999-12-31 23:59:59'),
+  (1, '9999-12-31 23:59:59', '9999-12-31 23:59:59'),
+  (3, '9999-12-31 23:59:59', '9999-12-31 23:59:59'),
+  (4, '9999-12-31 23:59:59', '9999-12-31 23:59:59');
 
-CREATE TABLE customer.profile(
-  customer_profile_id uuid,
-  UNIQUE(customer_profile_id),
-  PRIMARY KEY (customer_profile_id),
-  FOREIGN KEY (customer_profile_id) REFERENCES users.credentials(id)
-);
-
+-- CREATE TABLE customer.profile(
+--   customer_profile_id INT,
+--   UNIQUE(customer_profile_id),
+--   PRIMARY KEY (customer_profile_id),
+--   FOREIGN KEY (customer_profile_id) REFERENCES users.credentials(id)
+-- );
+--
 -- INSERT INTO customer.profile (
 --   id
 -- ) VALUES (1);
