@@ -6,4 +6,11 @@ type User {
     id: Int
     email: String
     password: String
+    permission: Permission
+}
+
+enum Permission {
+    USER
+    HOST
+    ADMIN
 }

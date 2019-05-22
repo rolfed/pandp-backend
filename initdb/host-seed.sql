@@ -8,23 +8,23 @@ CREATE DATABASE pandp;
 -- CREATE SCHEMA customer;
 CREATE SCHEMA application;
 
-CREATE TYPE permissionsE AS ENUM ('CUSTOMER', 'HOST', 'ADMIN');
+CREATE TYPE permissionsE AS ENUM ('USER', 'HOST', 'ADMIN');
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE credentials (
-  userId INT,
-  PRIMARY KEY(userId),
+  id INT,
+  PRIMARY KEY(id),
   email VARCHAR(50) NOT NULL,
   UNIQUE(email),
   password VARCHAR(155) NOT NULL,
-  permissions permissionsE
+  permission permissionsE
  );
 
-INSERT INTO credentials (userId, email, password, permissions) VALUES
-  ( 1, 'customer1@gmail.com', 'password', 'CUSTOMER'),
-  ( 2, 'customer2@gmail.com', 'password', 'CUSTOMER'),
-  ( 3, 'customer3@gmail.com', 'password', 'CUSTOMER'),
-  ( 4, 'customer4@gmail.com', 'password', 'CUSTOMER'),
+INSERT INTO credentials (id, email, password, permission) VALUES
+  ( 1, 'customer1@gmail.com', 'password', 'USER'),
+  ( 2, 'customer2@gmail.com', 'password', 'USER'),
+  ( 3, 'customer3@gmail.com', 'password', 'USER'),
+  ( 4, 'customer4@gmail.com', 'password', 'USER'),
   ( 5, 'host1@gmail.com', 'password', 'HOST'),
   ( 6, 'host2@gmail.com', 'password', 'HOST'),
   ( 7, 'host3@gmail.com', 'password', 'HOST'),
@@ -39,7 +39,7 @@ SELECT * FROM credentials;
 CREATE TABLE profiles (
   profileId INT,
   UNIQUE(profileId),
-  FOREIGN KEY (profileId) REFERENCES credentials(userId),
+  FOREIGN KEY (profileId) REFERENCES credentials(id),
   firstName VARCHAR(55),
   lastName VARCHAR(55),
   mobileNumber VARCHAR(20),
