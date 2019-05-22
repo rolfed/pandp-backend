@@ -3,23 +3,24 @@ CREATE DATABASE pandp;
 \connect pandp;
 
 -- Users is the general schema. A customer, host and admin are users.
-CREATE SCHEMA users;
-CREATE SCHEMA hosts;
-CREATE SCHEMA customer;
+-- CREATE SCHEMA users;
+-- CREATE SCHEMA hosts;
+-- CREATE SCHEMA customer;
+CREATE SCHEMA application;
 
 CREATE TYPE permissionsE AS ENUM ('CUSTOMER', 'HOST', 'ADMIN');
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE users.credentials (
-  user_id INT,
-  PRIMARY KEY(user_id),
-  email_login VARCHAR(50) NOT NULL,
-  UNIQUE(email_login),
+CREATE TABLE credentials (
+  userId INT,
+  PRIMARY KEY(userId),
+  email VARCHAR(50) NOT NULL,
+  UNIQUE(email),
   password VARCHAR(155) NOT NULL,
   permissions permissionsE
  );
 
-INSERT INTO users.credentials (user_id, email_login, password, permissions) VALUES
+INSERT INTO credentials (userId, email, password, permissions) VALUES
   ( 1, 'customer1@gmail.com', 'password', 'CUSTOMER'),
   ( 2, 'customer2@gmail.com', 'password', 'CUSTOMER'),
   ( 3, 'customer3@gmail.com', 'password', 'CUSTOMER'),
@@ -33,25 +34,27 @@ INSERT INTO users.credentials (user_id, email_login, password, permissions) VALU
   ( 11, 'admin3@gmail.com', 'password', 'ADMIN'),
   ( 12, 'admin4@gmail.com', 'password', 'ADMIN');
 
-CREATE TABLE users.profile (
-  profile_id INT,
-  UNIQUE(profile_id),
-  FOREIGN KEY (profile_id) REFERENCES users.credentials(user_id),
-  first_name VARCHAR(55),
-  last_name VARCHAR(55),
-  mobile_number VARCHAR(20),
-  home_number VARCHAR(20),
-  profile_image VARCHAR(255),
+SELECT * FROM credentials;
+
+CREATE TABLE profiles (
+  profileId INT,
+  UNIQUE(profileId),
+  FOREIGN KEY (profileId) REFERENCES credentials(userId),
+  firstName VARCHAR(55),
+  lastName VARCHAR(55),
+  mobileNumber VARCHAR(20),
+  homeNumber VARCHAR(20),
+  profileImage VARCHAR(255),
   description text
 );
 
-INSERT INTO users.profile (
-  profile_id,
-  first_name,
-  last_name,
-  mobile_number,
-  home_number,
-  profile_image,
+INSERT INTO profiles (
+  profileId,
+  firstName,
+  lastName,
+  mobileNumber,
+  homeNumber,
+  profileImage,
   description
 ) VALUES
   (1, 'Customer 1', 'Rolfe', '971-713-1358', '971-713-1359', 'https://via.placeholder.com/350x350', 'The boogy man'),
@@ -67,11 +70,13 @@ INSERT INTO users.profile (
   (11, 'Admin 3', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man'),
   (12, 'Admin 4', 'Rolfe', '971-713-1358', '971-713-1358', 'https://via.placeholder.com/350x350', 'The boogy man');
 
-CREATE TABLE hosts.property (
+SELECT * FROM profiles;
+
+CREATE TABLE properties (
   property_id INT,
   UNIQUE(property_id),
   profile_id INT,
-  FOREIGN KEY (profile_id) REFERENCES users.profile(profile_id),
+  FOREIGN KEY (profile_id) REFERENCES profiles(profileId),
   property_rating INT Array,
   property_latitude DECIMAL,
   property_longitude DECIMAL,
@@ -81,7 +86,7 @@ CREATE TABLE hosts.property (
   property_zip INT
 );
 
-INSERT INTO hosts.property (
+INSERT INTO properties (
   profile_id,
   property_id,
   property_rating,
@@ -98,14 +103,16 @@ INSERT INTO hosts.property (
   (7, 4, Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124),
   (8, 5, Array[2, 4, 5, 1 ], 45.512794, -122.679565, '1111 SW 7th', 'Portland', 'OR', 97124);
 
-CREATE TABLE hosts.schedule (
+SELECT * FROM properties;
+
+CREATE TABLE properties_schedule (
   property_id INT,
-  FOREIGN KEY (property_id) REFERENCES hosts.property(property_id),
+  FOREIGN KEY (property_id) REFERENCES properties(property_id),
   property_schedule_checkin DATE,
   property_schedule_checkout DATE
 );
 
-INSERT INTO hosts.schedule (
+INSERT INTO properties_schedule (
   property_id,
   property_schedule_checkin,
   property_schedule_checkout
@@ -117,6 +124,7 @@ INSERT INTO hosts.schedule (
   (3, '9999-12-31 23:59:59', '9999-12-31 23:59:59'),
   (4, '9999-12-31 23:59:59', '9999-12-31 23:59:59');
 
+SELECT * FROM properties_schedule;
 -- CREATE TABLE customer.profile(
 --   customer_profile_id INT,
 --   UNIQUE(customer_profile_id),
