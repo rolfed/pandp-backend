@@ -1,4 +1,25 @@
 -------------------------------------------------------------------------------
 Test set: io.pandp.service.ServiceApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.244 s - in io.pandp.service.ServiceApplicationTests
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.587 s <<< FAILURE! - in io.pandp.service.ServiceApplicationTests
+contextLoads(io.pandp.service.ServiceApplicationTests)  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'schemaParser' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLJavaToolsAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.coxautodev.graphql.tools.SchemaParser]: Factory method 'schemaParser' threw exception; nested exception is com.coxautodev.graphql.tools.FieldResolverError: No method or field found with any of the following signatures (with or without graphql.schema.DataFetchingEnvironment as the last argument), in priority order:
+
+  io.pandp.service.registration.entity.CredentialsEntity.permission()
+  io.pandp.service.registration.entity.CredentialsEntity.getPermission()
+  io.pandp.service.registration.entity.CredentialsEntity.permission
+Caused by: org.springframework.beans.BeanInstantiationException: 
+Failed to instantiate [com.coxautodev.graphql.tools.SchemaParser]: Factory method 'schemaParser' threw exception; nested exception is com.coxautodev.graphql.tools.FieldResolverError: No method or field found with any of the following signatures (with or without graphql.schema.DataFetchingEnvironment as the last argument), in priority order:
+
+  io.pandp.service.registration.entity.CredentialsEntity.permission()
+  io.pandp.service.registration.entity.CredentialsEntity.getPermission()
+  io.pandp.service.registration.entity.CredentialsEntity.permission
+Caused by: com.coxautodev.graphql.tools.FieldResolverError: 
+No method or field found with any of the following signatures (with or without graphql.schema.DataFetchingEnvironment as the last argument), in priority order:
+
+  io.pandp.service.registration.entity.CredentialsEntity.permission()
+  io.pandp.service.registration.entity.CredentialsEntity.getPermission()
+  io.pandp.service.registration.entity.CredentialsEntity.permission
+

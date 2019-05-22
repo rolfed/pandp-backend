@@ -1,1 +1,5 @@
+io/pandp/service/registration/entity/CredentialsEntity.class
+io/pandp/shared/models/Permission.class
+io/pandp/service/registration/repository/CredentialsRepository.class
+io/pandp/service/registration/resolver/CredentialsResolver.class
 io/pandp/service/ServiceApplication.class
