@@ -47,11 +47,16 @@ docker-compose down
 docker-compose up --build
 ```
 This will create pandp database with a dev user with password 'password'
-Please visit the following to manage applicaiton:
-* Adminer
-** localhost:9999
+
+Please visit the following to manage application:
+* Adminer (MySql database client)
+```bash
+http://localhost:9999
+```
 *Graphiql
-** http://localhost:8080/graphiql 
+```bash
+http://localhost:8080/graphiql 
+```
 
 ## Running the application 
 
@@ -105,9 +110,10 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [Spring Boot](https://spring.io/guides/gs/spring-boot/) - Backend framework
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [GraphQL](https://graphql.org/) - Query API Layer
+* [PostGres](https://www.postgresql.org/) - Relational Database
 
 ## Contributing
 
