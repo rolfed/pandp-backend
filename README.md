@@ -14,6 +14,8 @@ What things you need to install the software and how to install them
 Java 8
 Maven 8
 Docker
+GraphQL
+PostGres
 ```
 
 ### Installing
@@ -21,39 +23,65 @@ Docker
 A step by step series of examples that tell you how to get a development env running
 
 Clone project
-
 ```bash
 git clone git@github.com:rolfed/pandp-backend.git
 ```
 
-Install dependecies 
-
+Install dependencies 
 ```bash
 mvn install
 ```
-
-Add property variables
-```bash
-coming soon...
-
-```
-
 Run docker-compose
-```
+```bash
 docker-compose up
 ```
 
-Rebuild docker containers with docker-compose
+Run docker-compose in detach mode 
+```bash
+docker-compose up -d
 ```
+
+Rebuild docker containers with docker-compose
+```bash
+docker-compose down 
 docker-compose up --build
 ```
 This will create pandp database with a dev user with password 'password'
+Please visit the following to manage applicaiton:
+* Adminer
+** localhost:9999
+*Graphiql
+** http://localhost:8080/graphiql 
 
-End with an example of getting some data out of the system or using it for a little demo
+## Running the application 
 
-## Running the tests
+Run application 
+```bash
+mvn spring-boot:run 
+```
 
-Explain how to run the automated tests for this system
+
+Add property variables to application.properties
+```bash
+## PostGreSQL
+spring.datasource.initialization-mode=always
+spring.datasource.platform=postgres
+spring.datasource.url=jdbc:postgresql://localhost:5432/pandp
+spring.datasource.username=dev
+spring.datasource.password=password
+
+## drop and create table again, for testing
+## comment this in production
+spring.jpa.hibernate.ddl-auto=update
+
+# Meant to hide HHH000424: Disabling contextual LOB creation as createClob() method threw error
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+
+```
+
+## Running the tests 
+coming soon..
+
 
 ### Break down into end to end tests
 
